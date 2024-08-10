@@ -1,6 +1,8 @@
 using BookStore_API.Data;
 using Microsoft.EntityFrameworkCore;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,11 +20,23 @@ builder.Services.AddDbContext<BookContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+// Serve Angular files
+// Serve Angular files
+app.UseSpa(spa =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    spa.Options.SourcePath = "ClientApp";
+
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+    }
+});
 
 app.UseHttpsRedirection();
 
